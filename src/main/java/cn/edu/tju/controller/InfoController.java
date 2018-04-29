@@ -65,7 +65,7 @@ public class InfoController {
     @RequestMapping("/leave/load/doneList")
     public ErrorReporter doneList(String username, int page, int pageSize) {
 
-        if ( !loginService.isLogin()) {
+        if ( loginService.isLogin()) {
             System.out.println("没有登录");
             return new ErrorReporter(4, "not login");
         }
@@ -81,7 +81,7 @@ public class InfoController {
             Pageable pageable = new PageRequest(page - 1, pageSize);
             List<LoadInfo> las = loadInfoRepo.findById(username, pageable);
             List<ResponseLoadInfo> list = new ArrayList<>();
-            for (LoadInfo e : las) {
+             for (LoadInfo e : las) {
                 list.add(new ResponseLoadInfo(e));
                 System.out.println(e);
             }
@@ -90,7 +90,18 @@ public class InfoController {
             return new ErrorReporter(0, "success", data);
         }
     }
-
+    @RequestMapping("/leave/add/addpic")
+    public ErrorReporter addpic(String name, String dynasty, String place, String type)
+    {
+        LoadInfo info = null;
+        info.setName(name);
+        info.setDynasty(dynasty);
+        info.setPlace(place);
+        info.setType(type);
+        //loginService.saveInfo(info);
+        loadInfoRepo.save(info);
+        return new ErrorReporter(0,"success");
+    }
     @RequestMapping("/leave/review/action")
     public ErrorReporter action(int id, int status, String reviewReason) {
 

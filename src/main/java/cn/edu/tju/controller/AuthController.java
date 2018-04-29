@@ -37,10 +37,10 @@ public class AuthController {
         return loginService.login(username, password);
     }
 
-    @RequestMapping(value = "/leave/auth/reg",method = RequestMethod.POST)
+    /*@RequestMapping(value = "/leave/auth/reg",method = RequestMethod.POST)
     public ErrorReporter doReg(String username, String password){
         return loginService.reg(username, password);
-    }
+    }*/
 
     @RequestMapping(value = "/leave/auth/logout",method = RequestMethod.POST)
     public ErrorReporter doLogout(String username){

@@ -1,13 +1,16 @@
 package cn.edu.tju.service;
 
+import cn.edu.tju.dao.LoadInfoRepo;
 import cn.edu.tju.dao.UserRepo;
 import cn.edu.tju.dto.ResponseNameData;
+import cn.edu.tju.model.LoadInfo;
 import cn.edu.tju.model.User;
 import cn.edu.tju.dto.ErrorReporter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
@@ -22,9 +25,16 @@ public class LoginService {
     @Autowired
     protected HttpSession httpSession;
 
+    @Autowired
+    protected LoginService loginService;
 
+    @Autowired
+    protected LoadInfoRepo loadInfoRepo;
     //HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 
+    public void saveInfo(LoadInfo info){
+        loadInfoRepo.save(info);
+    }
     public ErrorReporter login(String username, String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashPass = passwordEncoder.encode(password);
@@ -51,7 +61,7 @@ public class LoginService {
         }
     }
 
-    public ErrorReporter reg(String username, String password){
+    /*public ErrorReporter reg(String username, String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         password = passwordEncoder.encode(password);
         if ( !userRepo.exists(username) ) {
@@ -61,10 +71,10 @@ public class LoginService {
         } else {
             return new ErrorReporter(3, "duplication error");
         }
-    }
+    }*/
 
     public boolean isLogin(){
-        User a = (User)httpSession.getAttribute("user");
+        User a = (User)loginService.getHttpSession().getAttribute("user");
         //User b = (User)request.getSession().getAttribute("user");
         System.out.println("看看"+a);
         //System.out.println("再看看"+b);

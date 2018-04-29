@@ -3,13 +3,17 @@ package cn.edu.tju.model;
 import javax.persistence.Entity;
 import java.sql.Blob;
 import java.util.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class LoadInfo {
     @Id
-    private String name;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private String uid;
 
+    private String name;
     private String dynasty;
     private String type;
     private String place;
@@ -20,7 +24,8 @@ public class LoadInfo {
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, Date loadtime, String storagepicture, Blob smallpicture, String id) {
+    public LoadInfo(String uid, String name, String dynasty, String type, String place, Date loadtime, String storagepicture, Blob smallpicture, String id) {
+        this.uid = uid;
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -29,6 +34,14 @@ public class LoadInfo {
         this.storagepicture = storagepicture;
         this.smallpicture = smallpicture;
         this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

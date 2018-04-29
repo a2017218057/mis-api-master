@@ -13,11 +13,22 @@ public class User {
 
     private String password;
 
-    protected User() {}
+    private int previlege;
 
-    public User(String id, String password) {
+    public User(String id, String password, int previlege) {
         this.id = id;
         this.password = password;
+        this.previlege = previlege;
+    }
+
+    protected User() {}
+
+    public int getPrevilege() {
+        return previlege;
+    }
+
+    public void setPrevilege(int previlege) {
+        this.previlege = previlege;
     }
 
     public String getId() {
