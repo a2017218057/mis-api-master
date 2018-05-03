@@ -6,21 +6,36 @@ import java.sql.Blob;
 import java.util.Date;
 
 public class ResponseLoadInfo {
+    private int uid;
     private String name;
     private String dynasty;
     private String type;
     private String place;
-    private Date loadtime;
+    private String  loadtime;
     private String id;
+    private String storagepicture;
+    private String updatetime;
 
     protected ResponseLoadInfo() {}
-    public ResponseLoadInfo(LoadInfo la) {
-        this.name = la.getName();
-        this.dynasty = la.getDynasty();
-        this.type = la.getType();
-        this.place = la.getPlace();
-        this.loadtime = la.getLoadtime();
-        this.id = la.getId();
+
+    public ResponseLoadInfo(LoadInfo loadInfo) {
+        this.uid = loadInfo.getUid();
+        this.name = loadInfo.getName();
+        this.dynasty = loadInfo.getDynasty();
+        this.type = loadInfo.getType();
+        this.place = loadInfo.getPlace();
+        this.loadtime = loadInfo.getLoadtime();
+        this.id = loadInfo.getId();
+        this.storagepicture = loadInfo.getStoragepicture();
+        this.updatetime = loadInfo.getUpdatetime();
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -55,11 +70,11 @@ public class ResponseLoadInfo {
         this.place = place;
     }
 
-    public Date getLoadtime() {
+    public String getLoadtime() {
         return loadtime;
     }
 
-    public void setLoadtime(Date loadtime) {
+    public void setLoadtime(String loadtime) {
         this.loadtime = loadtime;
     }
 
@@ -69,6 +84,22 @@ public class ResponseLoadInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStoragepicture() {
+        return storagepicture;
+    }
+
+    public void setStoragepicture(String storagepicture) {
+        this.storagepicture = storagepicture;
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
     }
 }
 

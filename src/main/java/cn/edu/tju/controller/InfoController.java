@@ -15,13 +15,17 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import java.io.*;
 
 @RestController
 public class InfoController {
@@ -65,7 +69,7 @@ public class InfoController {
     @RequestMapping("/leave/load/doneList")
     public ErrorReporter doneList(String username, int page, int pageSize) {
 
-        if ( loginService.isLogin()) {
+        if ( !loginService.isLogin()) {
             System.out.println("没有登录");
             return new ErrorReporter(4, "not login");
         }
@@ -76,14 +80,14 @@ public class InfoController {
             //Staff curStaff = staffRepo.findOne(curUser.getId());
             //System.out.println("当前用户" + curUser.getId());
             System.out.println(username);
-            long total = loadInfoRepo.count();
+            long total = loadInfoRepo.countById(curUser.getId());
             System.out.println("一共"+total);
             Pageable pageable = new PageRequest(page - 1, pageSize);
             List<LoadInfo> las = loadInfoRepo.findById(username, pageable);
             List<ResponseLoadInfo> list = new ArrayList<>();
              for (LoadInfo e : las) {
                 list.add(new ResponseLoadInfo(e));
-                System.out.println(e);
+                //System.out.println(e);
             }
 
             ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
@@ -91,16 +95,70 @@ public class InfoController {
         }
     }
     @RequestMapping("/leave/add/addpic")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type)
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String picname, String smallpic)
     {
-        LoadInfo info = null;
+        String root = "img/";
+        User curUser = (User)httpSession.getAttribute("user");
+        //LoadInfo info = new LoadInfo(null,name,dynasty,type,place,null,null,null,curUser.getId());
+        Date day = new Date();
+        long time = System.currentTimeMillis();
+        //String t = String.valueOf(time/1000);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = simpleDateFormat.format(time);
+        //System.out.println(str);
+        String s = smallpic.replaceAll(" ","+");
+        //System.out.println(s);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,root+picname,s,curUser.getId(),null);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
         info.setType(type);
+        info.setLoadtime(str);
+        info.setStoragepicture(root+picname);
+        info.setSmallpicture(s);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");
+    }
+    @RequestMapping("/leave/add/uploadpic")
+    public ErrorReporter uploadpic(@RequestParam("file") MultipartFile file){
+        System.out.println("上传");
+        if (!file.isEmpty()) {
+            try {
+                /*
+                 * 这段代码执行完毕之后，图片上传到了工程的跟路径； 大家自己扩散下思维，如果我们想把图片上传到
+                 * d:/files大家是否能实现呢？ 等等;
+                 * 这里只是简单一个例子,请自行参考，融入到实际中可能需要大家自己做一些思考，比如： 1、文件路径； 2、文件名；
+                 * 3、文件格式; 4、文件大小的限制;
+                 */
+                String tcatpath = httpSession.getServletContext().getRealPath("/");
+                System.out.println(tcatpath);
+
+                String path = "src/main/resources/static/img/";
+                File f = new File(path+file.getOriginalFilename());
+
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream out = new BufferedOutputStream(
+                        new FileOutputStream(f));
+                //file.transferTo(f);
+                System.out.println(file.getOriginalFilename());
+                out.write(bytes);
+                out.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            }
+
+            return new ErrorReporter(0,"success");
+
+        } else {
+            return new ErrorReporter(2,"null");
+        }
+
     }
     @RequestMapping("/leave/review/action")
     public ErrorReporter action(int id, int status, String reviewReason) {

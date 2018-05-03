@@ -10,22 +10,22 @@ import javax.persistence.Id;
 @Entity
 public class LoadInfo {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private String uid;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int uid;//自增主键
 
-    private String name;
+    private String name;//物品名称
     private String dynasty;
     private String type;
     private String place;
-    private Date loadtime;
+    private String loadtime;
     private String storagepicture;
-    private Blob smallpicture;
-    private String id;
+    private String  smallpicture;
+    private String id;//员工ID
+    private String updatetime;
 
     protected LoadInfo() {}
 
-    public LoadInfo(String uid, String name, String dynasty, String type, String place, Date loadtime, String storagepicture, Blob smallpicture, String id) {
-        this.uid = uid;
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String storagepicture, String smallpicture, String id, String updatetime) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -34,13 +34,14 @@ public class LoadInfo {
         this.storagepicture = storagepicture;
         this.smallpicture = smallpicture;
         this.id = id;
+        this.updatetime = updatetime;
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
@@ -76,11 +77,11 @@ public class LoadInfo {
         this.place = place;
     }
 
-    public Date getLoadtime() {
+    public String getLoadtime() {
         return loadtime;
     }
 
-    public void setLoadtime(Date loadtime) {
+    public void setLoadtime(String loadtime) {
         this.loadtime = loadtime;
     }
 
@@ -92,11 +93,11 @@ public class LoadInfo {
         this.storagepicture = storagepicture;
     }
 
-    public Blob getSmallpicture() {
+    public String getSmallpicture() {
         return smallpicture;
     }
 
-    public void setSmallpicture(Blob smallpicture) {
+    public void setSmallpicture(String smallpicture) {
         this.smallpicture = smallpicture;
     }
 
@@ -106,5 +107,13 @@ public class LoadInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
     }
 }

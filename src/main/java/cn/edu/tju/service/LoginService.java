@@ -44,13 +44,9 @@ public class LoginService {
             System.out.println("用户存在"+user.getPassword());
             if (passwordEncoder.matches(password, user.getPassword())) {
                 //System.out.println("密码正确");
-                System.out.println(user);
-                System.out.println(user.getId());
+                //System.out.println(user);
+                //System.out.println(user.getId());
                 httpSession.setAttribute("user", user);
-                User a = (User)httpSession.getAttribute("user");
-                //User b = (User)request.getSession().getAttribute("user");
-                System.out.println("看看"+a);
-                //System.out.println("再看看"+b);
                 ResponseNameData responseNameData = new ResponseNameData(username);
                 return new ErrorReporter(0, "success",responseNameData);
             }else {
@@ -74,10 +70,7 @@ public class LoginService {
     }*/
 
     public boolean isLogin(){
-        User a = (User)loginService.getHttpSession().getAttribute("user");
-        //User b = (User)request.getSession().getAttribute("user");
-        System.out.println("看看"+a);
-        //System.out.println("再看看"+b);
+
         if (httpSession.getAttribute("user")!=null){
             System.out.println("登录");
             return true;
