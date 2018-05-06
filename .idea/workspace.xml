@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb5495ad-b784-4410-85b4-a18c2045360e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/InfoController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/InfoController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/filter/CorsFilter.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/filter/CorsFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/model/LoadInfo.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/model/LoadInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mis-api-master.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1323,7 +1321,7 @@
       <workItem from="1524907684686" duration="16623000" />
       <workItem from="1525008439059" duration="4886000" />
       <workItem from="1525015866468" duration="65882000" />
-      <workItem from="1525520999646" duration="16608000" />
+      <workItem from="1525520999646" duration="17026000" />
     </task>
     <servers />
   </component>
@@ -1342,7 +1340,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="196699000" />
+    <option name="totallyTimeSpent" value="197117000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
