@@ -22,10 +22,11 @@ public class LoadInfo {
     private String  smallpicture;
     private String id;//员工ID
     private String updatetime;
+    private String bigdocument;
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String storagepicture, String smallpicture, String id, String updatetime) {
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String storagepicture, String smallpicture, String id, String updatetime, String bigdocument) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -35,6 +36,7 @@ public class LoadInfo {
         this.smallpicture = smallpicture;
         this.id = id;
         this.updatetime = updatetime;
+        this.bigdocument = bigdocument;
     }
 
     public int getUid() {
@@ -115,5 +117,13 @@ public class LoadInfo {
 
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getBigdocument() {
+        return bigdocument;
+    }
+
+    public void setBigdocument(String bigdocument) {
+        this.bigdocument = bigdocument;
     }
 }

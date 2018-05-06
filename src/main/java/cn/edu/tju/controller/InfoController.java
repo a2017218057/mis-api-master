@@ -108,7 +108,7 @@ public class InfoController {
         //System.out.println(str);
         String s = smallpic.replaceAll(" ","+");
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,root+picname,s,curUser.getId(),null);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,root+picname,s,curUser.getId(),null,null);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
@@ -120,17 +120,41 @@ public class InfoController {
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");
     }
-    @RequestMapping("/leave/add/uploadpic")
-    public ErrorReporter uploadpic(@RequestParam("file") MultipartFile file){
+    @RequestMapping("/leave/add/pic")
+    public ErrorReporter pic(@RequestParam("file") MultipartFile pic) {
         System.out.println("上传");
-        if (!file.isEmpty()) {
-            /*try {
-                *//*
-                 * 这段代码执行完毕之后，图片上传到了工程的跟路径； 大家自己扩散下思维，如果我们想把图片上传到
-                 * d:/files大家是否能实现呢？ 等等;
-                 * 这里只是简单一个例子,请自行参考，融入到实际中可能需要大家自己做一些思考，比如： 1、文件路径； 2、文件名；
-                 * 3、文件格式; 4、文件大小的限制;
-                 *//*
+        if (!pic.isEmpty()) {
+            try{
+            String path = "src/main/resources/static/img/";
+            File f = new File(path+pic.getOriginalFilename());
+
+            byte[] bytes = pic.getBytes();
+            BufferedOutputStream out = new BufferedOutputStream(
+                    new FileOutputStream(f));
+            //file.transferTo(f);
+            System.out.println(pic.getOriginalFilename());
+            out.write(bytes);
+            out.close();
+        }catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            }
+            return new ErrorReporter(0,"success");
+
+        } else {
+            return new ErrorReporter(2,"null");
+        }
+    }
+
+    @RequestMapping("/leave/add/uploadpic")
+    public boolean uploadpic(@RequestParam("file") MultipartFile file){
+        //System.out.println("上传");
+        /*if (!file.isEmpty()) {
+            try {
+
                 String tcatpath = httpSession.getServletContext().getRealPath("/");
                 System.out.println(tcatpath);
 
@@ -152,12 +176,13 @@ public class InfoController {
                 e.printStackTrace();
                 return new ErrorReporter(1,"fail");
             }
-*/
+
             return new ErrorReporter(0,"success");
 
         } else {
             return new ErrorReporter(2,"null");
-        }
+        }*/
+        return true;
 
     }
     @RequestMapping("/leave/review/action")
