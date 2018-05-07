@@ -94,6 +94,11 @@ public class InfoController {
             return new ErrorReporter(0, "success", data);
         }
     }
+    @RequestMapping("/leave/searchinfo/searchlist")
+    public ErrorReporter searchinfo(String event)
+    {
+        
+    }
     @RequestMapping("/leave/add/addpic")
     public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic)
     {
