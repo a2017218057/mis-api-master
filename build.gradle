@@ -41,7 +41,8 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version: '1.4.7.RELEASE'
 
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.0.RC2'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.0.1.RELEASE'
+
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.0.1.RELEASE'
 
