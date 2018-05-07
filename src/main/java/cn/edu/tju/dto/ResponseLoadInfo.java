@@ -13,8 +13,9 @@ public class ResponseLoadInfo {
     private String place;
     private String  loadtime;
     private String id;
-    private String storagepicture;
     private String updatetime;
+    private String pathdoc;
+    private String pathpic;
 
     protected ResponseLoadInfo() {}
 
@@ -26,8 +27,9 @@ public class ResponseLoadInfo {
         this.place = loadInfo.getPlace();
         this.loadtime = loadInfo.getLoadtime();
         this.id = loadInfo.getId();
-        this.storagepicture = loadInfo.getStoragepicture();
         this.updatetime = loadInfo.getUpdatetime();
+        this.pathdoc = loadInfo.getPathdoc();
+        this.pathpic = loadInfo.getPathpic();
     }
 
     public int getUid() {
@@ -86,20 +88,28 @@ public class ResponseLoadInfo {
         this.id = id;
     }
 
-    public String getStoragepicture() {
-        return storagepicture;
-    }
-
-    public void setStoragepicture(String storagepicture) {
-        this.storagepicture = storagepicture;
-    }
-
     public String getUpdatetime() {
         return updatetime;
     }
 
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getPathdoc() {
+        return pathdoc;
+    }
+
+    public void setPathdoc(String pathdoc) {
+        this.pathdoc = pathdoc;
+    }
+
+    public String getPathpic() {
+        return pathpic;
+    }
+
+    public void setPathpic(String pathpic) {
+        this.pathpic = pathpic;
     }
 }
 

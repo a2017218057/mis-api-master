@@ -95,9 +95,9 @@ public class InfoController {
         }
     }
     @RequestMapping("/leave/add/addpic")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type, String picname, String smallpic)
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic)
     {
-        String root = "img/";
+        //String root = "img/";
         User curUser = (User)httpSession.getAttribute("user");
         //LoadInfo info = new LoadInfo(null,name,dynasty,type,place,null,null,null,curUser.getId());
         Date day = new Date();
@@ -106,59 +106,32 @@ public class InfoController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = simpleDateFormat.format(time);
         //System.out.println(str);
-        String s = smallpic.replaceAll(" ","+");
+
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,root+picname,s,curUser.getId(),null,null);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
         info.setType(type);
         info.setLoadtime(str);
-        info.setStoragepicture(root+picname);
-        info.setSmallpicture(s);
+        info.setPathdoc(pathdoc);
+        info.setPathpic(pathpic);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");
     }
-    @RequestMapping("/leave/add/pic")
-    public ErrorReporter pic(@RequestParam("file") MultipartFile pic) {
-        System.out.println("上传");
-        if (!pic.isEmpty()) {
-            try{
-            String path = "src/main/resources/static/img/";
-            File f = new File(path+pic.getOriginalFilename());
-
-            byte[] bytes = pic.getBytes();
-            BufferedOutputStream out = new BufferedOutputStream(
-                    new FileOutputStream(f));
-            //file.transferTo(f);
-            System.out.println(pic.getOriginalFilename());
-            out.write(bytes);
-            out.close();
-        }catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return new ErrorReporter(1,"fail");
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ErrorReporter(1,"fail");
-            }
-            return new ErrorReporter(0,"success");
-
-        } else {
-            return new ErrorReporter(2,"null");
-        }
-    }
 
     @RequestMapping("/leave/add/uploadpic")
-    public boolean uploadpic(@RequestParam("file") MultipartFile file){
+    public ErrorReporter uploadpic(@RequestParam("file") MultipartFile file){
+        String path = "src/main/resources/static/img/";
         //System.out.println("上传");
-        /*if (!file.isEmpty()) {
+        if (!file.isEmpty()) {
             try {
 
                 String tcatpath = httpSession.getServletContext().getRealPath("/");
                 System.out.println(tcatpath);
 
-                String path = "src/main/resources/static/img/";
+                //String path = "src/main/resources/static/img/";
                 File f = new File(path+file.getOriginalFilename());
 
                 byte[] bytes = file.getBytes();
@@ -181,8 +154,45 @@ public class InfoController {
 
         } else {
             return new ErrorReporter(2,"null");
-        }*/
-        return true;
+        }
+
+
+    }
+    @RequestMapping("/leave/add/uploaddoc")
+    public ErrorReporter uploaddoc(@RequestParam("file") MultipartFile file){
+        String path = "src/main/resources/static/doc/";
+        //System.out.println("上传");
+        if (!file.isEmpty()) {
+            try {
+
+                String tcatpath = httpSession.getServletContext().getRealPath("/");
+                System.out.println(tcatpath);
+
+                //String path = "src/main/resources/static/img/";
+                File f = new File(path+file.getOriginalFilename());
+
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream out = new BufferedOutputStream(
+                        new FileOutputStream(f));
+                //file.transferTo(f);
+                System.out.println(file.getOriginalFilename());
+                out.write(bytes);
+                out.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            }
+
+            return new ErrorReporter(0,"success");
+
+        } else {
+            return new ErrorReporter(2,"null");
+        }
+
 
     }
     @RequestMapping("/leave/review/action")

@@ -18,25 +18,23 @@ public class LoadInfo {
     private String type;
     private String place;
     private String loadtime;
-    private String storagepicture;
-    private String  smallpicture;
     private String id;//员工ID
     private String updatetime;
-    private String bigdocument;
+    private String pathdoc;//文件路径
+    private String pathpic;//图片路径
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String storagepicture, String smallpicture, String id, String updatetime, String bigdocument) {
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
         this.place = place;
         this.loadtime = loadtime;
-        this.storagepicture = storagepicture;
-        this.smallpicture = smallpicture;
         this.id = id;
         this.updatetime = updatetime;
-        this.bigdocument = bigdocument;
+        this.pathdoc = pathdoc;
+        this.pathpic = pathpic;
     }
 
     public int getUid() {
@@ -87,22 +85,6 @@ public class LoadInfo {
         this.loadtime = loadtime;
     }
 
-    public String getStoragepicture() {
-        return storagepicture;
-    }
-
-    public void setStoragepicture(String storagepicture) {
-        this.storagepicture = storagepicture;
-    }
-
-    public String getSmallpicture() {
-        return smallpicture;
-    }
-
-    public void setSmallpicture(String smallpicture) {
-        this.smallpicture = smallpicture;
-    }
-
     public String getId() {
         return id;
     }
@@ -119,11 +101,19 @@ public class LoadInfo {
         this.updatetime = updatetime;
     }
 
-    public String getBigdocument() {
-        return bigdocument;
+    public String getPathdoc() {
+        return pathdoc;
     }
 
-    public void setBigdocument(String bigdocument) {
-        this.bigdocument = bigdocument;
+    public void setPathdoc(String pathdoc) {
+        this.pathdoc = pathdoc;
+    }
+
+    public String getPathpic() {
+        return pathpic;
+    }
+
+    public void setPathpic(String pathpic) {
+        this.pathpic = pathpic;
     }
 }
