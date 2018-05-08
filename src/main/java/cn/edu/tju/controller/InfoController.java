@@ -10,6 +10,7 @@ import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
 import cn.edu.tju.service.LoginService;
 import com.google.gson.Gson;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ import java.util.Date;
 import java.util.List;
 
 import java.io.*;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class InfoController {
@@ -247,6 +253,25 @@ public class InfoController {
         }
 
 
+    }
+    @RequestMapping("/leave/download/pic")
+    public ResponseEntity<byte[]> downloadpic(String pathpic) throws IOException {
+
+        String rootpath = "http://localhost:8080/";
+        String r = "F:/GitHub/mis-api-master/src/main/resources/static/";
+
+        File file=new File(r+pathpic);
+        int pos = pathpic.indexOf("/");
+        String filename = pathpic.substring(pos+1);
+        System.out.println("截取后的文件名"+filename);
+        HttpHeaders headers = new HttpHeaders();
+        String dfilename = new String (filename.getBytes("UTF-8"),"iso-8859-1");
+        byte[] bt = FileUtils.readFileToByteArray(file);
+        //headers.add("Content-Disposition", "attachment;filename="+filename);
+        headers.setContentDispositionFormData("attachment",filename);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        HttpStatus httpStatus = HttpStatus.OK;
+        return new ResponseEntity<byte[]>(bt,headers,httpStatus);
     }
     @RequestMapping("/leave/review/action")
     public ErrorReporter action(int id, int status, String reviewReason) {

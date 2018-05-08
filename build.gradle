@@ -45,6 +45,8 @@ dependencies {
 
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.0.1.RELEASE'
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
 
 	runtime('org.springframework.boot:spring-boot-devtools')
