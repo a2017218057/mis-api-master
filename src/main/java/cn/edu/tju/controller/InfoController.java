@@ -94,6 +94,34 @@ public class InfoController {
             return new ErrorReporter(0, "success", data);
         }
     }
+    @RequestMapping("/leave/load/selfList")
+    public ErrorReporter selfList(String username, int page, int pageSize) {
+
+        if ( !loginService.isLogin()) {
+            System.out.println("没有登录");
+            return new ErrorReporter(4, "not login");
+        }
+        else {
+
+            User curUser = (User) httpSession.getAttribute("user");
+            System.out.println("进来"+curUser);
+            //Staff curStaff = staffRepo.findOne(curUser.getId());
+            //System.out.println("当前用户" + curUser.getId());
+            System.out.println(username);
+            long total = loadInfoRepo.countById(curUser.getId());
+            System.out.println("一共"+total);
+            Pageable pageable = new PageRequest(page - 1, pageSize);
+            List<LoadInfo> las = loadInfoRepo.findById(curUser.getId(), pageable);
+            List<ResponseLoadInfo> list = new ArrayList<>();
+            for (LoadInfo e : las) {
+                list.add(new ResponseLoadInfo(e));
+                //System.out.println(e);
+            }
+
+            ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+            return new ErrorReporter(0, "success", data);
+        }
+    }
     @RequestMapping("/leave/searchinfo/searchlist")
     public ErrorReporter searchinfo(String event,String username, int page, int pageSize)
     {
