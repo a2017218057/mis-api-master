@@ -83,7 +83,7 @@ public class InfoController {
             long total = loadInfoRepo.countById(curUser.getId());
             System.out.println("一共"+total);
             Pageable pageable = new PageRequest(page - 1, pageSize);
-            List<LoadInfo> las = loadInfoRepo.findById(username, pageable);
+            List<LoadInfo> las = loadInfoRepo.findByifcheck(true, pageable);
             List<ResponseLoadInfo> list = new ArrayList<>();
              for (LoadInfo e : las) {
                 list.add(new ResponseLoadInfo(e));
@@ -95,12 +95,31 @@ public class InfoController {
         }
     }
     @RequestMapping("/leave/searchinfo/searchlist")
-    public ErrorReporter searchinfo(String event)
+    public ErrorReporter searchinfo(String event,String username, int page, int pageSize)
     {
-        
+        if ( !loginService.isLogin()) {
+            System.out.println("没有登录");
+            return new ErrorReporter(4, "not login");
+        }
+        else
+        {
+            Pageable pageable = new PageRequest(page - 1, pageSize);
+            //long total = 10;
+            long total = loadInfoRepo.countByNameLike(event);
+            System.out.println("一共是："+total);
+
+            List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(event,true,pageable);
+            List<ResponseLoadInfo> list = new ArrayList<>();
+            for (LoadInfo e : las){
+                list.add(new ResponseLoadInfo(e));
+            }
+            ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+            return new ErrorReporter(0, "success", data);
+        }
+
     }
     @RequestMapping("/leave/add/addpic")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic)
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck)
     {
         //String root = "img/";
         User curUser = (User)httpSession.getAttribute("user");
@@ -113,7 +132,7 @@ public class InfoController {
         //System.out.println(str);
 
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
@@ -121,6 +140,7 @@ public class InfoController {
         info.setLoadtime(str);
         info.setPathdoc(pathdoc);
         info.setPathpic(pathpic);
+        info.setIfcheck(ifcheck);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");

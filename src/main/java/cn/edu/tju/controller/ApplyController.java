@@ -46,7 +46,7 @@ public class ApplyController {
     protected LoadInfoRepo loadInfoRepo;
 
 
-    @RequestMapping("/leave/apply/add")
+    /*@RequestMapping("/leave/apply/add")
     public ErrorReporter add(String username, int startTime, int endTime, int type, String reason, int submitStatus) {
 
         if ( !loginService.isLogin()) {
@@ -124,10 +124,10 @@ public class ApplyController {
         LeaveApplication la = leaveAppRepo.save(new LeaveApplication(username , curStaff.getName() , startTime , endTime , curTime , reason, type, submitStatus, ""+ curStaff.getDepartment(), curStaff.getManagerId(), curStaff.getManagerName(), 0 , ""));
 
         return new ErrorReporter(0, "success");
-    }
+    }*/
 
     @RequestMapping("/leave/apply/modify")
-    public ErrorReporter modify(String id, String name, String dynasty, String place, String type, int uid) {
+    public ErrorReporter modify(String id, String name, String dynasty, String place, String type, int uid,boolean ifcheck) {
 
 
         if ( !loginService.isLogin()) {
@@ -150,7 +150,7 @@ public class ApplyController {
         la.setDynasty(dynasty);
         la.setPlace(place);
         la.setType(type);
-
+        la.setIfcheck(ifcheck);
         long time = System.currentTimeMillis();
         //String t = String.valueOf(time/1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

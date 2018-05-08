@@ -11,11 +11,12 @@ public class ResponseLoadInfo {
     private String dynasty;
     private String type;
     private String place;
-    private String  loadtime;
+    private String loadtime;
     private String id;
     private String updatetime;
     private String pathdoc;
     private String pathpic;
+    private Boolean ifcheck;
 
     protected ResponseLoadInfo() {}
 
@@ -30,6 +31,7 @@ public class ResponseLoadInfo {
         this.updatetime = loadInfo.getUpdatetime();
         this.pathdoc = loadInfo.getPathdoc();
         this.pathpic = loadInfo.getPathpic();
+        this.ifcheck = loadInfo.getIfcheck();
     }
 
     public int getUid() {
@@ -110,6 +112,14 @@ public class ResponseLoadInfo {
 
     public void setPathpic(String pathpic) {
         this.pathpic = pathpic;
+    }
+
+    public Boolean getIfcheck() {
+        return ifcheck;
+    }
+
+    public void setIfcheck(Boolean ifcheck) {
+        this.ifcheck = ifcheck;
     }
 }
 

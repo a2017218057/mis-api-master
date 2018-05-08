@@ -22,10 +22,11 @@ public class LoadInfo {
     private String updatetime;
     private String pathdoc;//文件路径
     private String pathpic;//图片路径
+    private Boolean ifcheck;
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic) {
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic, Boolean ifcheck) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -35,6 +36,7 @@ public class LoadInfo {
         this.updatetime = updatetime;
         this.pathdoc = pathdoc;
         this.pathpic = pathpic;
+        this.ifcheck = ifcheck;
     }
 
     public int getUid() {
@@ -115,5 +117,13 @@ public class LoadInfo {
 
     public void setPathpic(String pathpic) {
         this.pathpic = pathpic;
+    }
+
+    public Boolean getIfcheck() {
+        return ifcheck;
+    }
+
+    public void setIfcheck(Boolean ifcheck) {
+        this.ifcheck = ifcheck;
     }
 }
