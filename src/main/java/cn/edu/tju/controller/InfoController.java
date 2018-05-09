@@ -16,9 +16,12 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,10 +31,7 @@ import java.util.List;
 
 import java.io.*;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import java.net.URLEncoder;
 
 @RestController
 public class InfoController {
@@ -255,24 +255,37 @@ public class InfoController {
 
     }
     @RequestMapping("/leave/download/pic")
-    public ResponseEntity<byte[]> downloadpic(String pathpic) throws IOException {
+    public ResponseEntity<byte[]> downloadpic(String pathpic, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String rootpath = "http://localhost:8080/";
         String r = "F:/GitHub/mis-api-master/src/main/resources/static/";
-
         File file=new File(r+pathpic);
-        int pos = pathpic.indexOf("/");
-        String filename = pathpic.substring(pos+1);
-        System.out.println("截取后的文件名"+filename);
+        //int pos = pathpic.indexOf("/");
+        System.out.println(file.getName());
+        //String filename = pathpic.substring(pos+1);
+        //System.out.println("截取后的文件名"+file.getName());
         HttpHeaders headers = new HttpHeaders();
-        String dfilename = new String (filename.getBytes("UTF-8"),"iso-8859-1");
+        Boolean flag= request.getHeader("User-Agent").indexOf("like Gecko")>0;
+        String dfilename ;
+        if (request.getHeader("User-Agent").toLowerCase().indexOf("msie") >0||flag) {
+            dfilename = URLEncoder.encode(file.getName(), "UTF-8");//IE浏览器
+        }else {
+            dfilename = new String (file.getName().replaceAll(" ", "").getBytes("UTF-8"),"ISO-8859-1");
+        }
         byte[] bt = FileUtils.readFileToByteArray(file);
-        //headers.add("Content-Disposition", "attachment;filename="+filename);
-        headers.setContentDispositionFormData("attachment",filename);
+        headers.add("Content-Disposition", "attachment;filename="+dfilename);
+
+        //headers.setContentDispositionFormData("attachment",dfilename);
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        //response.setContentType("application/octet-stream; charset=UTF-8");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "No-cache");
+        response.setDateHeader("Expires", 0);
         HttpStatus httpStatus = HttpStatus.OK;
         return new ResponseEntity<byte[]>(bt,headers,httpStatus);
     }
+
+
     @RequestMapping("/leave/review/action")
     public ErrorReporter action(int id, int status, String reviewReason) {
 
