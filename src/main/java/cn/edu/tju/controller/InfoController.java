@@ -152,8 +152,8 @@ public class InfoController {
         }
 
     }
-    @RequestMapping("/leave/add/addpic")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck)
+    @RequestMapping("/leave/add/addinfo")
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck,String tag_seq)
     {
         //String root = "img/";
         User curUser = (User)httpSession.getAttribute("user");
@@ -166,7 +166,7 @@ public class InfoController {
         //System.out.println(str);
 
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true,tag_seq);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
@@ -175,6 +175,7 @@ public class InfoController {
         info.setPathdoc(pathdoc);
         info.setPathpic(pathpic);
         info.setIfcheck(ifcheck);
+        info.setTags_seq(tag_seq);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");

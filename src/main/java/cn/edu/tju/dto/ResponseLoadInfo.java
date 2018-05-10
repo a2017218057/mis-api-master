@@ -17,6 +17,7 @@ public class ResponseLoadInfo {
     private String pathdoc;
     private String pathpic;
     private Boolean ifcheck;
+    private String tags_seq;
 
     protected ResponseLoadInfo() {}
 
@@ -32,6 +33,7 @@ public class ResponseLoadInfo {
         this.pathdoc = loadInfo.getPathdoc();
         this.pathpic = loadInfo.getPathpic();
         this.ifcheck = loadInfo.getIfcheck();
+        this.tags_seq = loadInfo.getTags_seq();
     }
 
     public int getUid() {
@@ -120,6 +122,14 @@ public class ResponseLoadInfo {
 
     public void setIfcheck(Boolean ifcheck) {
         this.ifcheck = ifcheck;
+    }
+
+    public String getTags_seq() {
+        return tags_seq;
+    }
+
+    public void setTags_seq(String tags_seq) {
+        this.tags_seq = tags_seq;
     }
 }
 

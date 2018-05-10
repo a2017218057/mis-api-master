@@ -15,10 +15,13 @@ public class User {
 
     private int previlege;
 
-    public User(String id, String password, int previlege) {
+    private String registertime;
+
+    public User(String id, String password, int previlege, String registertime) {
         this.id = id;
         this.password = password;
         this.previlege = previlege;
+        this.registertime = registertime;
     }
 
     protected User() {}
@@ -45,5 +48,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRegistertime() {
+        return registertime;
+    }
+
+    public void setRegistertime(String registertime) {
+        this.registertime = registertime;
     }
 }
