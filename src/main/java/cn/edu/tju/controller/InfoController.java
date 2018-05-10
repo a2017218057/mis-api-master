@@ -152,6 +152,30 @@ public class InfoController {
         }
 
     }
+    @RequestMapping("/leave/searchinfo/searchtags")
+    public ErrorReporter searchtags(String tag_seq,String username, int page, int pageSize)
+    {
+        if ( !loginService.isLogin()) {
+            System.out.println("没有登录");
+            return new ErrorReporter(4, "not login");
+        }
+        else
+        {
+            Pageable pageable = new PageRequest(page - 1, pageSize);
+            //long total = 10;
+            long total = loadInfoRepo.countByTagLike(tag_seq);
+            System.out.println("一共是："+total);
+
+            List<LoadInfo> las = loadInfoRepo.findByTagContainingAndIfcheck(tag_seq,true,pageable);
+            List<ResponseLoadInfo> list = new ArrayList<>();
+            for (LoadInfo e : las){
+                list.add(new ResponseLoadInfo(e));
+            }
+            ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+            return new ErrorReporter(0, "success", data);
+        }
+
+    }
     @RequestMapping("/leave/add/addinfo")
     public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck,String tag_seq)
     {
@@ -175,7 +199,7 @@ public class InfoController {
         info.setPathdoc(pathdoc);
         info.setPathpic(pathpic);
         info.setIfcheck(ifcheck);
-        info.setTags_seq(tag_seq);
+        info.setTag(tag_seq);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");
@@ -255,12 +279,12 @@ public class InfoController {
 
 
     }
-    @RequestMapping("/leave/download/pic")
-    public ResponseEntity<byte[]> downloadpic(String pathpic, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping("/leave/download/doc")
+    public ResponseEntity<byte[]> downloaddoc(String pathdoc, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String rootpath = "http://localhost:8080/";
         String r = "F:/GitHub/mis-api-master/src/main/resources/static/";
-        File file=new File(r+pathpic);
+        File file=new File(r+pathdoc);
         //int pos = pathpic.indexOf("/");
         System.out.println(file.getName());
         //String filename = pathpic.substring(pos+1);

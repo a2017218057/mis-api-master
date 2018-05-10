@@ -23,11 +23,11 @@ public class LoadInfo {
     private String pathdoc;//文件路径
     private String pathpic;//图片路径
     private Boolean ifcheck;
-    private String tags_seq;
+    private String tag;
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic, Boolean ifcheck, String tags_seq) {
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic, Boolean ifcheck, String tag) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -38,7 +38,7 @@ public class LoadInfo {
         this.pathdoc = pathdoc;
         this.pathpic = pathpic;
         this.ifcheck = ifcheck;
-        this.tags_seq = tags_seq;
+        this.tag = tag;
     }
 
     public int getUid() {
@@ -129,11 +129,11 @@ public class LoadInfo {
         this.ifcheck = ifcheck;
     }
 
-    public String getTags_seq() {
-        return tags_seq;
+    public String getTag() {
+        return tag;
     }
 
-    public void setTags_seq(String tags_seq) {
-        this.tags_seq = tags_seq;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }
