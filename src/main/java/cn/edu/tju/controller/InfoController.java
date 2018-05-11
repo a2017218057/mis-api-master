@@ -80,13 +80,12 @@ public class InfoController {
             return new ErrorReporter(4, "not login");
         }
         else {
-            
             User curUser = (User) httpSession.getAttribute("user");
             System.out.println("进来"+curUser);
             //Staff curStaff = staffRepo.findOne(curUser.getId());
             //System.out.println("当前用户" + curUser.getId());
             System.out.println(username);
-            long total = loadInfoRepo.countById(curUser.getId());
+            long total = loadInfoRepo.count();
             System.out.println("一共"+total);
             Pageable pageable = new PageRequest(page - 1, pageSize);
             List<LoadInfo> las = loadInfoRepo.findByifcheck(true, pageable);
