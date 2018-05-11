@@ -80,7 +80,7 @@ public class InfoController {
             return new ErrorReporter(4, "not login");
         }
         else {
-
+            
             User curUser = (User) httpSession.getAttribute("user");
             System.out.println("进来"+curUser);
             //Staff curStaff = staffRepo.findOne(curUser.getId());
@@ -177,7 +177,7 @@ public class InfoController {
 
     }
     @RequestMapping("/leave/add/addinfo")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck,String tag_seq)
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck,String tag_seq,Boolean ifcheckdown)
     {
         //String root = "img/";
         User curUser = (User)httpSession.getAttribute("user");
@@ -190,7 +190,7 @@ public class InfoController {
         //System.out.println(str);
 
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true,tag_seq);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true,tag_seq,ifcheckdown);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
@@ -200,6 +200,7 @@ public class InfoController {
         info.setPathpic(pathpic);
         info.setIfcheck(ifcheck);
         info.setTag(tag_seq);
+        info.setIfcheckdown(ifcheckdown);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");

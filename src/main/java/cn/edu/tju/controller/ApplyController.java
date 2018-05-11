@@ -127,7 +127,7 @@ public class ApplyController {
     }*/
 
     @RequestMapping("/leave/apply/modify")
-    public ErrorReporter modify(String id, String name, String dynasty, String place, String type, int uid,boolean ifcheck) {
+    public ErrorReporter modify(String id, String name, String dynasty, String place, String type, int uid,boolean ifcheck,boolean ifcheckdown) {
 
 
         if ( !loginService.isLogin()) {
@@ -151,12 +151,13 @@ public class ApplyController {
         la.setPlace(place);
         la.setType(type);
         la.setIfcheck(ifcheck);
+        la.setIfcheckdown(ifcheckdown);
         long time = System.currentTimeMillis();
         //String t = String.valueOf(time/1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = simpleDateFormat.format(time);
         la.setUpdatetime(str);
-        la = loadInfoRepo.save(la);
+        loadInfoRepo.save(la);
 
         return new ErrorReporter(0, "success");
     }

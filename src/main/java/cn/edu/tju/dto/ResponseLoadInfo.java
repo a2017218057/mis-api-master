@@ -18,6 +18,7 @@ public class ResponseLoadInfo {
     private String pathpic;
     private Boolean ifcheck;
     private String tag;
+    private Boolean ifcheckdown;
 
     protected ResponseLoadInfo() {}
 
@@ -34,6 +35,7 @@ public class ResponseLoadInfo {
         this.pathpic = loadInfo.getPathpic();
         this.ifcheck = loadInfo.getIfcheck();
         this.tag = loadInfo.getTag();
+        this.ifcheckdown = loadInfo.getIfcheckdown();
     }
 
     public int getUid() {
@@ -130,6 +132,14 @@ public class ResponseLoadInfo {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Boolean getIfcheckdown() {
+        return ifcheckdown;
+    }
+
+    public void setIfcheckdown(Boolean ifcheckdown) {
+        this.ifcheckdown = ifcheckdown;
     }
 }
 

@@ -24,10 +24,11 @@ public class LoadInfo {
     private String pathpic;//图片路径
     private Boolean ifcheck;
     private String tag;
+    private Boolean ifcheckdown;
 
     protected LoadInfo() {}
 
-    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic, Boolean ifcheck, String tag) {
+    public LoadInfo(String name, String dynasty, String type, String place, String loadtime, String id, String updatetime, String pathdoc, String pathpic, Boolean ifcheck, String tag, Boolean ifcheckdown) {
         this.name = name;
         this.dynasty = dynasty;
         this.type = type;
@@ -39,6 +40,7 @@ public class LoadInfo {
         this.pathpic = pathpic;
         this.ifcheck = ifcheck;
         this.tag = tag;
+        this.ifcheckdown = ifcheckdown;
     }
 
     public int getUid() {
@@ -135,5 +137,13 @@ public class LoadInfo {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Boolean getIfcheckdown() {
+        return ifcheckdown;
+    }
+
+    public void setIfcheckdown(Boolean ifcheckdown) {
+        this.ifcheckdown = ifcheckdown;
     }
 }
