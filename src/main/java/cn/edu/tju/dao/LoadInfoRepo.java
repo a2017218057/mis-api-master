@@ -17,8 +17,10 @@ public interface LoadInfoRepo extends CrudRepository<LoadInfo, Integer>, PagingA
     public List<LoadInfo> findByifcheck(Boolean c, Pageable pageable);
     public int countById(String ID);
     //@Query("select o from LoadInfo o where u.username like %?1%")
-    public List<LoadInfo> findByNameContainingAndIfcheck(String Event,Boolean c,Pageable pageable);
+    public List<LoadInfo> findByNameContainingAndIfcheck(String name,Boolean c,Pageable pageable);
     public List<LoadInfo> findByTagContainingAndIfcheck(String tag,Boolean c,Pageable pageable);
+    public List<LoadInfo> findByNameContainingAndTagContainingAndIfcheck(String name,String tag,Boolean c,Pageable pageable);
     public int countByNameLike(String event);
     public int countByTagLike(String tag);
+    public int countByNameLikeAndTagLike(String name,String tag);
 }

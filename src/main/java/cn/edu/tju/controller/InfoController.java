@@ -137,17 +137,44 @@ public class InfoController {
         else
         {
             Pageable pageable = new PageRequest(page - 1, pageSize);
-            //long total = 10;
-            long total = loadInfoRepo.countByNameLike(name);
-            System.out.println("一共是："+total);
+            if(name!=""&&tag!=""){
 
-            List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(name,true,pageable);
-            List<ResponseLoadInfo> list = new ArrayList<>();
-            for (LoadInfo e : las){
-                list.add(new ResponseLoadInfo(e));
+                long total = loadInfoRepo.countByNameLikeAndTagLike(name,tag);
+                List<LoadInfo> las = loadInfoRepo.findByNameContainingAndTagContainingAndIfcheck(name,tag,true,pageable);
+                List<ResponseLoadInfo> list = new ArrayList<>();
+                for (LoadInfo e : las){
+                    list.add(new ResponseLoadInfo(e));
+                }
+                ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+                return new ErrorReporter(0, "success", data);
             }
-            ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
-            return new ErrorReporter(0, "success", data);
+            else if(name!=""&&tag==""){
+                long total = loadInfoRepo.countByNameLike(name);
+                System.out.println("一共是："+total);
+
+                List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(name,true,pageable);
+                List<ResponseLoadInfo> list = new ArrayList<>();
+                for (LoadInfo e : las){
+                    list.add(new ResponseLoadInfo(e));
+                }
+                ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+                return new ErrorReporter(0, "success", data);
+            }
+            else if(name==""&&tag!=""){
+                long total = loadInfoRepo.countByTagLike(tag);
+                System.out.println("一共是："+total);
+
+                List<LoadInfo> las = loadInfoRepo.findByTagContainingAndIfcheck(tag,true,pageable);
+                List<ResponseLoadInfo> list = new ArrayList<>();
+                for (LoadInfo e : las){
+                    list.add(new ResponseLoadInfo(e));
+                }
+                ResponseListData data = new ResponseListData(page, pageSize, total, username, list);
+                return new ErrorReporter(0, "success", data);
+            }
+            //long total = 10;
+            return new ErrorReporter(0, "fail");
+
         }
 
     }
