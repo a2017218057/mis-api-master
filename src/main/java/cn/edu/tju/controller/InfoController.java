@@ -128,7 +128,7 @@ public class InfoController {
         }
     }
     @RequestMapping("/leave/searchinfo/searchlist")
-    public ErrorReporter searchinfo(String event,String username, int page, int pageSize)
+    public ErrorReporter searchinfo(String name,String tag,String username, int page, int pageSize)
     {
         if ( !loginService.isLogin()) {
             System.out.println("没有登录");
@@ -138,10 +138,10 @@ public class InfoController {
         {
             Pageable pageable = new PageRequest(page - 1, pageSize);
             //long total = 10;
-            long total = loadInfoRepo.countByNameLike(event);
+            long total = loadInfoRepo.countByNameLike(name);
             System.out.println("一共是："+total);
 
-            List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(event,true,pageable);
+            List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(name,true,pageable);
             List<ResponseLoadInfo> list = new ArrayList<>();
             for (LoadInfo e : las){
                 list.add(new ResponseLoadInfo(e));
