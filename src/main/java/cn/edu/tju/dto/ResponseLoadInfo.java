@@ -19,6 +19,8 @@ public class ResponseLoadInfo {
     private Boolean ifcheck;
     private String tag;
     private Boolean ifcheckdown;
+    private Boolean ispic;
+    private String pathmovie;
 
     protected ResponseLoadInfo() {}
 
@@ -36,6 +38,8 @@ public class ResponseLoadInfo {
         this.ifcheck = loadInfo.getIfcheck();
         this.tag = loadInfo.getTag();
         this.ifcheckdown = loadInfo.getIfcheckdown();
+        this.ispic = loadInfo.getIspic();
+        this.pathmovie = loadInfo.getPathmovie();
     }
 
     public int getUid() {
@@ -140,6 +144,22 @@ public class ResponseLoadInfo {
 
     public void setIfcheckdown(Boolean ifcheckdown) {
         this.ifcheckdown = ifcheckdown;
+    }
+
+    public Boolean getIspic() {
+        return ispic;
+    }
+
+    public void setIspic(Boolean ispic) {
+        this.ispic = ispic;
+    }
+
+    public String getPathmovie() {
+        return pathmovie;
+    }
+
+    public void setPathmovie(String pathmovie) {
+        this.pathmovie = pathmovie;
     }
 }
 

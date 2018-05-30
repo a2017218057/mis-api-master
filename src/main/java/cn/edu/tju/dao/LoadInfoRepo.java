@@ -14,7 +14,7 @@ import java.util.List;
 public interface LoadInfoRepo extends CrudRepository<LoadInfo, Integer>, PagingAndSortingRepository<LoadInfo, Integer> ,JpaRepository<LoadInfo,Integer> {
 
     public List<LoadInfo> findById(String ID, Pageable pageable);
-    public List<LoadInfo> findByifcheck(Boolean c, Pageable pageable);
+    public List<LoadInfo> findByifcheckOrderByLoadtimeDesc(Boolean c, Pageable pageable);
     public int countById(String ID);
     //@Query("select o from LoadInfo o where u.username like %?1%")
     public List<LoadInfo> findByNameContainingAndIfcheck(String name,Boolean c,Pageable pageable);
@@ -23,4 +23,7 @@ public interface LoadInfoRepo extends CrudRepository<LoadInfo, Integer>, PagingA
     public int countByNameLike(String event);
     public int countByTagLike(String tag);
     public int countByNameLikeAndTagLike(String name,String tag);
+    public long countByNameContainingAndTagContainingAndIfcheck(String name,String tag,Boolean c);
+    public long countByNameContainingAndIfcheck(String name,Boolean c);
+    public long countByTagContainingAndIfcheck(String tag,Boolean c);
 }

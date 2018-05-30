@@ -31,7 +31,9 @@ import java.util.List;
 
 import java.io.*;
 
+import java.net.*;
 import java.net.URLEncoder;
+import java.net.URLDecoder;
 
 @RestController
 public class InfoController {
@@ -88,7 +90,7 @@ public class InfoController {
             long total = loadInfoRepo.count();
             System.out.println("一共"+total);
             Pageable pageable = new PageRequest(page - 1, pageSize);
-            List<LoadInfo> las = loadInfoRepo.findByifcheck(true, pageable);
+            List<LoadInfo> las = loadInfoRepo.findByifcheckOrderByLoadtimeDesc(true, pageable);
             List<ResponseLoadInfo> list = new ArrayList<>();
              for (LoadInfo e : las) {
                 list.add(new ResponseLoadInfo(e));
@@ -139,7 +141,8 @@ public class InfoController {
             Pageable pageable = new PageRequest(page - 1, pageSize);
             if(name!=""&&tag!=""){
 
-                long total = loadInfoRepo.countByNameLikeAndTagLike(name,tag);
+                long total = loadInfoRepo.countByNameContainingAndTagContainingAndIfcheck(name,tag,true);
+                System.out.println("total:"+total);
                 List<LoadInfo> las = loadInfoRepo.findByNameContainingAndTagContainingAndIfcheck(name,tag,true,pageable);
                 List<ResponseLoadInfo> list = new ArrayList<>();
                 for (LoadInfo e : las){
@@ -149,7 +152,7 @@ public class InfoController {
                 return new ErrorReporter(0, "success", data);
             }
             else if(name!=""&&tag==""){
-                long total = loadInfoRepo.countByNameLike(name);
+                long total = loadInfoRepo.countByNameContainingAndIfcheck(name,true);
                 System.out.println("一共是："+total);
 
                 List<LoadInfo> las = loadInfoRepo.findByNameContainingAndIfcheck(name,true,pageable);
@@ -161,7 +164,7 @@ public class InfoController {
                 return new ErrorReporter(0, "success", data);
             }
             else if(name==""&&tag!=""){
-                long total = loadInfoRepo.countByTagLike(tag);
+                long total = loadInfoRepo.countByTagContainingAndIfcheck(tag,true);
                 System.out.println("一共是："+total);
 
                 List<LoadInfo> las = loadInfoRepo.findByTagContainingAndIfcheck(tag,true,pageable);
@@ -203,12 +206,17 @@ public class InfoController {
 
     }
     @RequestMapping("/leave/add/addinfo")
-    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpic, Boolean ifcheck,String tag_seq,Boolean ifcheckdown)
+    public ErrorReporter addpic(String name, String dynasty, String place, String type, String pathdoc, String pathpreview, Boolean ifcheck,String tag_seq,Boolean ifcheckdown,Boolean ispic,String pathmovie)
     {
         //String root = "img/";
+        System.out.println("文件名称："+pathdoc);
+        pathdoc = pathdoc.replace("%2B","+");
+        //URLDecoder.decode(pathdoc,"UTF-8");
+
         User curUser = (User)httpSession.getAttribute("user");
         //LoadInfo info = new LoadInfo(null,name,dynasty,type,place,null,null,null,curUser.getId());
         Date day = new Date();
+
         long time = System.currentTimeMillis();
         //String t = String.valueOf(time/1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -216,17 +224,19 @@ public class InfoController {
         //System.out.println(str);
 
         //System.out.println(s);
-        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpic,true,tag_seq,ifcheckdown);
+        LoadInfo info = new LoadInfo(name,dynasty,type,place,str,curUser.getId(),null,pathdoc,pathpreview,true,tag_seq,ifcheckdown,ispic,pathmovie);
         info.setName(name);
         info.setDynasty(dynasty);
         info.setPlace(place);
         info.setType(type);
         info.setLoadtime(str);
         info.setPathdoc(pathdoc);
-        info.setPathpic(pathpic);
+        info.setPathpic(pathpreview);
         info.setIfcheck(ifcheck);
         info.setTag(tag_seq);
         info.setIfcheckdown(ifcheckdown);
+        info.setIspic(ispic);
+        info.setPathmovie(pathmovie);
         //loginService.saveInfo(info);
         loadInfoRepo.save(info);
         return new ErrorReporter(0,"success");
@@ -306,11 +316,49 @@ public class InfoController {
 
 
     }
+    @RequestMapping("/leave/add/uploadpreview")
+    public ErrorReporter uploadpreview(@RequestParam("file") MultipartFile file){
+        String path = "src/main/resources/static/preview/";
+        //System.out.println("上传");
+        if (!file.isEmpty()) {
+            try {
+
+                String tcatpath = httpSession.getServletContext().getRealPath("/");
+                System.out.println(tcatpath);
+                System.out.println("预览");
+                //String path = "src/main/resources/static/img/";
+                File f = new File(path+file.getOriginalFilename());
+
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream out = new BufferedOutputStream(
+                        new FileOutputStream(f));
+                //file.transferTo(f);
+                System.out.println(file.getOriginalFilename());
+                out.write(bytes);
+                out.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return new ErrorReporter(1,"fail");
+            }
+
+            return new ErrorReporter(0,"success");
+
+        } else {
+            return new ErrorReporter(2,"null");
+        }
+
+
+    }
     @RequestMapping("/leave/download/doc")
     public ResponseEntity<byte[]> downloaddoc(String pathdoc, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String rootpath = "http://localhost:8080/";
         String r = "F:/GitHub/mis-api-master/src/main/resources/static/";
+        pathdoc = pathdoc.replace("%2B","+");
         File file=new File(r+pathdoc);
         //int pos = pathpic.indexOf("/");
         System.out.println(file.getName());
@@ -323,6 +371,7 @@ public class InfoController {
             dfilename = URLEncoder.encode(file.getName(), "UTF-8");//IE浏览器
         }else {
             dfilename = new String (file.getName().replaceAll(" ", "").getBytes("UTF-8"),"ISO-8859-1");
+            System.out.println("文件名"+dfilename);
         }
         byte[] bt = FileUtils.readFileToByteArray(file);
         headers.add("Content-Disposition", "attachment;filename="+dfilename);
